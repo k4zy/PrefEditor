@@ -1,0 +1,20 @@
+build:
+  box: 
+    id: gcr.io/android-container-build/github-kazy1991-wercker-container-android
+    username: _json_key
+    password: $GCR_JSON_KEY_FILE
+    registry: gcr.io
+    tag: 80419ac44ac6f4598546b0cffd77a643cbe72d96
+  steps:
+    - script:
+        name: test
+        code: |
+          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR prefeditor:jacoco prefeditor:coveralls -PdisablePreDex
+    - script:
+        name: run codecov
+        code: |
+          bash <(curl -s https://codecov.io/bash)
+    - script:
+        name: build sample app
+        code: |
+          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR sample:assembleDebug -PdisablePreDex
