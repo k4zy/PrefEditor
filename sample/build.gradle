@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion compile_sdk_version as int
+    buildToolsVersion build_tools_version
+    defaultConfig {
+        applicationId "com.github.kazy1991.prefeditor.sample"
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode 1
+        versionName "1.0"
+        jackOptions {
+            enabled true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile "com.android.support:appcompat-v7:$support_lib_version"
+    compile project(':prefeditor')
+}
