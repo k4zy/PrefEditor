@@ -9,7 +9,7 @@ build:
     - script:
         name: test
         code: |
-          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR prefeditor:jacoco prefeditor:coveralls -PdisablePreDex
+          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR prefeditor:jacoco -PdisablePreDex
     - script:
         name: run codecov
         code: |
