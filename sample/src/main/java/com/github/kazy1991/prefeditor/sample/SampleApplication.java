@@ -16,5 +16,9 @@ public class SampleApplication extends Application {
         sampleOneSchema.setFeatureFlag1(true);
         SharedPreferences defaultPref = PreferenceManager.getDefaultSharedPreferences(this);
         defaultPref.edit().putString("SampleKey", "Hello world").apply();
+        defaultPref.edit().putString("UserName", "Kazuki Yoshida").apply();
+        defaultPref.edit().putInt("age", 25).apply();
+        defaultPref.edit().putBoolean("isDead", false).apply();
+        defaultPref.edit().putFloat("shoeSize", 29.5f).apply();
     }
 }

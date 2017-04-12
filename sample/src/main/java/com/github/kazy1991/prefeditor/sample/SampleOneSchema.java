@@ -8,9 +8,9 @@ import com.github.kazy1991.prefkit.annotation.PrefSchema;
 @PrefSchema("SampleOneSchema")
 public interface SampleOneSchema {
 
-    String featureFlag1 = "featureFlag1";
+    String featureFlag = "featureFlag";
 
-    @PrefKey(featureFlag1)
+    @PrefKey(featureFlag)
     void setFeatureFlag1(boolean flag);
 
 
