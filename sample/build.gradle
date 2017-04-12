@@ -21,6 +21,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:$support_lib_version"
+    compile "com.android.support:recyclerview-v7:$support_lib_version"
     compile 'com.github.kazy1991:PrefKit:0.0.3'
     compile project(':prefeditor')
 }
