@@ -1,9 +1,13 @@
 package com.github.kazy1991.prefeditor.sample
 
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import com.github.kazy1991.prefeditor.sample.databinding.ActivityMainBinding
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -12,17 +16,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val prefsDir = File(applicationInfo.dataDir, "shared_prefs")
-        if (prefsDir.exists() && prefsDir.isDirectory) {
-            for (fileName in prefsDir.list()) {
-                val prefName = fileName.substring(0, fileName.lastIndexOf('.'))
-                Log.d(MainActivity::class.java.simpleName, prefName)
-                val pref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
-                for ((key, value) in pref.all) {
-                    Log.d("map values", key + ": " + value.toString())
-                }
-            }
-        }
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main);
 
+        Observable.just(File(applicationInfo.dataDir, "shared_prefs"))
+                .filter { it.exists() && it.isDirectory }
+                .flatMap { Observable.fromIterable(it.list().toList()) }
+                .map { it.substring(0, it.lastIndexOf('.')) }
+                .map { getSharedPreferences(it, Context.MODE_PRIVATE) }
+                .flatMap { Observable.fromIterable(it.all.toList()) }
+                .map { (key, value) -> Pair(key, value.toString()) }
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { it ->
+                    binding.recyclerView.adapter = PrefListAdaper(it)
+                }
     }
 }
