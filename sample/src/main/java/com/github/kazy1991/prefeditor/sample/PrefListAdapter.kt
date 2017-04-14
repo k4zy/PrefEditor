@@ -1,13 +1,18 @@
 package com.github.kazy1991.prefeditor.sample
 
-
 import android.databinding.DataBindingUtil
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.github.kazy1991.prefeditor.sample.databinding.CellPrefListBinding
+import io.reactivex.subjects.PublishSubject
 
-class PrefListAdaper(val list: List<Pair<String, String>>) : RecyclerView.Adapter<PrefListAdaper.ViewHolder>() {
+class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
+
+    val list = ArrayList<Pair<String, String>>()
+
+    val valueClickSubject = PublishSubject.create<Pair<String, String>>()!!
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
         val context = parent.context
@@ -17,9 +22,23 @@ class PrefListAdaper(val list: List<Pair<String, String>>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val context = holder.binding.root.context
         val item = list[position]
         holder.binding.pefKeyView.text = item.first
-        holder.binding.pefValueView.text = item.second
+
+        holder.binding.pefValueView.apply {
+            text = item.second
+            setOnClickListener {
+                valueClickSubject.onNext(item)
+            }
+        }
+
+
+        if (position % 2 == 0) {
+            holder.binding.root.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+        } else {
+            holder.binding.root.setBackgroundColor(ContextCompat.getColor(context, R.color.indigo50))
+        }
     }
 
     override fun getItemCount(): Int {
