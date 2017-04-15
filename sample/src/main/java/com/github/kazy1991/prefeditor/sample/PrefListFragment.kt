@@ -51,8 +51,8 @@ class PrefListFragment : Fragment(), EditDialogCallback {
                 .let { compositeDisposable.add(it) }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroyView() {
+        super.onDestroyView()
         compositeDisposable.clear()
     }
 
