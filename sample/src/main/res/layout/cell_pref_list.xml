@@ -12,10 +12,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingStart="20dp"
-            android:paddingTop="10dp" />
+            android:paddingBottom="@dimen/cell_padding_vertical"
+            android:paddingLeft="@dimen/cell_padding_horizontal"
+            android:paddingStart="@dimen/cell_padding_horizontal"
+            android:paddingTop="@dimen/cell_padding_vertical" />
 
         <TextView
             android:id="@+id/pef_value_view"
@@ -23,10 +23,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingStart="20dp"
-            android:paddingTop="10dp" />
+            android:paddingBottom="@dimen/cell_padding_vertical"
+            android:paddingLeft="@dimen/cell_padding_horizontal"
+            android:paddingStart="@dimen/cell_padding_horizontal"
+            android:paddingTop="@dimen/cell_padding_vertical" />
 
     </LinearLayout>
 </layout>

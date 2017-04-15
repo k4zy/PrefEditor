@@ -49,7 +49,7 @@ class PrefListFragment : Fragment() {
 
         adapter.valueClickSubject
                 .subscribe({ it ->
-                    Toast.makeText(context, "${it.first}: ${it.second}", Toast.LENGTH_SHORT).show()
+                    EditDialogFragment.newInstance(it.first, it.second).show(fragmentManager, "dialog")
                 })
                 .let { compositeDisposable.add(it) }
     }
