@@ -7,8 +7,12 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.text.InputType
+import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Spinner
 
 class EditDialogFragment : DialogFragment() {
 
@@ -16,18 +20,13 @@ class EditDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    lateinit var editText: EditText
+    var editText: EditText? = null
 
-    @SuppressLint("InflateParams")
+    var booleanSpinner: Spinner? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = activity.layoutInflater
-        val customView = inflater.inflate(R.layout.dialog_edit, null).apply {
-            editText = (findViewById(R.id.value_edit_text) as EditText)
-                    .also { it.append(arguments.getString(ARGS_VALUE)) }
-        }
-
         return AlertDialog.Builder(context, R.style.CustomAlertDialogStyle).apply {
-            setView(customView)
+            setView(customView())
             setTitle(title())
             setPositiveButton("上書き", { _, _ ->
                 if (parentFragment is EditDialogCallback) {
@@ -38,8 +37,85 @@ class EditDialogFragment : DialogFragment() {
         }.create()
     }
 
+    fun customView(): View {
+        when (valueType()) {
+            ValueType.BOOLEAN -> {
+                return booleanCustomView()
+            }
+            else -> {
+                return normalCustomView()
+            }
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    fun normalCustomView(): View {
+        val inflater = LayoutInflater.from(context)
+        val customView = inflater.inflate(R.layout.dialog_edit, null, false)
+        (customView.findViewById(R.id.value_edit_text) as EditText).also {
+            this.editText = it
+            it.inputType = inputType()
+            it.append(value())
+        }
+        return customView
+    }
+
+    @SuppressLint("InflateParams")
+    fun booleanCustomView(): View {
+        val inflater = LayoutInflater.from(context)
+        val customView = inflater.inflate(R.layout.dialog_boolean_edit, null, false)
+        (customView.findViewById(R.id.boolean_spinner) as Spinner).also {
+            this.booleanSpinner = it
+            it.setSelection(selection())
+        }
+        return customView
+    }
+
+    fun selection(): Int {
+        when (value()) {
+            "true" -> return 0
+            "false" -> return 1
+            else -> return 1
+        }
+    }
+
+    enum class ValueType {
+        NUMBER, TEXT, BOOLEAN
+    }
+
+    fun inputType(): Int {
+        when (valueType()) {
+            ValueType.NUMBER -> {
+                return InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            }
+            ValueType.BOOLEAN -> {
+                return InputType.TYPE_CLASS_TEXT
+            }
+            else -> {
+                return InputType.TYPE_CLASS_TEXT
+            }
+        }
+    }
+
+    fun valueType(): ValueType {
+        if ("""(true|false)""".toRegex().matches(value())) {
+            return ValueType.BOOLEAN
+        } else if ("""(\d+|\d+.\d+)""".toRegex().matches(value())) {
+            return ValueType.NUMBER
+        } else {
+            return ValueType.TEXT
+        }
+    }
+
     fun newValue(): String {
-        return editText.text.toString()
+        when (valueType()) {
+            ValueType.BOOLEAN -> {
+                return booleanSpinner?.selectedItem.toString()
+            }
+            else -> {
+                return editText?.text.toString()
+            }
+        }
     }
 
     fun position(): Int {
@@ -48,6 +124,10 @@ class EditDialogFragment : DialogFragment() {
 
     fun key(): String {
         return arguments.getString(ARGS_KEY)
+    }
+
+    fun value(): String {
+        return arguments.getString(ARGS_VALUE)
     }
 
     fun title(): String {
@@ -64,7 +144,7 @@ class EditDialogFragment : DialogFragment() {
         val ARGS_POSITION = "args_position"
         val ARGS_KEY = "args_key"
         val ARGS_VALUE = "args_value"
-        val TAG = EditDialogFragment.javaClass.simpleName!!
+        val TAG = EditDialogFragment::class.java.simpleName!!
 
         private fun newInstance(position: Int, key: String, value: String): EditDialogFragment {
             return EditDialogFragment().also {
