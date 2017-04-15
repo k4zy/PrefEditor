@@ -1,7 +1,21 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/indigo_200</item>
+        <item name="colorControlActivated">@color/indigo_400</item>
+        <item name="android:textCursorDrawable">@color/indigo_400</item>
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="android:textColorHint">@color/grey_600</item>
+        <item name="android:textColorHighlight">@color/indigo_200</item>
     </style>
+
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/grey_600</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorPrimary">@color/grey_800</item>
+    </style>
+
 </resources>

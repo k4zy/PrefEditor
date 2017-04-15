@@ -26,7 +26,7 @@ class EditDialogFragment : DialogFragment() {
                     .also { it.append(arguments.getString(ARGS_VALUE)) }
         }
 
-        return AlertDialog.Builder(context).apply {
+        return AlertDialog.Builder(context, R.style.CustomAlertDialogStyle).apply {
             setView(customView)
             setTitle(title())
             setPositiveButton("上書き", { _, _ ->
