@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
+                    binding.indicatorView.setup(it.size, R.drawable.indicator)
                     binding.viewPager.adapter = PrefListPagerAdapter(it, supportFragmentManager)
+                    binding.viewPager.addOnPageChangeListener(binding.indicatorView.positionSyncListener)
                 }
     }
 }

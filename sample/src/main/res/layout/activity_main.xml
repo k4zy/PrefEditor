@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/activity_main"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.kazy.lxindicator.LxIndicatorGroup
+            android:id="@+id/indicator_view"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 </layout>
