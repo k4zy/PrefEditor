@@ -5,35 +5,45 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-
 
 class EditDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //        setStyle(style, theme);
     }
+
+    lateinit var editText: EditText
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = activity.layoutInflater
         val customView = inflater.inflate(R.layout.dialog_edit, null).apply {
-            (findViewById(R.id.edit_text) as EditText).append(arguments.getString(ARGS_VALUE))
+            editText = (findViewById(R.id.value_edit_text) as EditText)
+                    .also { it.append(arguments.getString(ARGS_VALUE)) }
         }
 
         return AlertDialog.Builder(context).apply {
             setView(customView)
             setTitle(title())
             setPositiveButton("上書き", { _, _ ->
+                if (parentFragment is EditDialogCallback) {
+                    (parentFragment as EditDialogCallback).onItemUpdate(key(), newValue())
+                }
             })
             setNegativeButton("キャンセル", null)
         }.create()
+    }
+
+    fun newValue(): String {
+        return editText.text.toString()
+    }
+
+    fun key(): String {
+        return arguments.getString(ARGS_KEY)
     }
 
     fun title(): String {
@@ -41,28 +51,27 @@ class EditDialogFragment : DialogFragment() {
         return "$key を変更"
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.dialog_edit, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 
     companion object {
-
         val ARGS_VALUE = "args_value"
         val ARGS_KEY = "args_key"
+        val TAG = EditDialogFragment.javaClass.simpleName!!
 
-        fun newInstance(key: String, value: String): EditDialogFragment {
+        private fun newInstance(key: String, value: String): EditDialogFragment {
             return EditDialogFragment().also {
                 it.arguments = Bundle().apply {
                     putString(ARGS_KEY, key)
                     putString(ARGS_VALUE, value)
                 }
             }
+        }
+
+        fun show(item: Pair<String, String>, fragment: Fragment) {
+            newInstance(item.first, item.second).show(fragment.childFragmentManager, TAG)
         }
     }
 }

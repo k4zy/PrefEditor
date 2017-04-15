@@ -8,14 +8,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.github.kazy1991.prefeditor.sample.databinding.FragmentPrefListBinding
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PrefListFragment : Fragment() {
+class PrefListFragment : Fragment(), EditDialogCallback {
 
     val adapter = PrefListAdapter()
 
@@ -48,15 +47,17 @@ class PrefListFragment : Fragment() {
                 .let { compositeDisposable.add(it) }
 
         adapter.valueClickSubject
-                .subscribe({ it ->
-                    EditDialogFragment.newInstance(it.first, it.second).show(fragmentManager, "dialog")
-                })
+                .subscribe({ it -> EditDialogFragment.show(it, this) })
                 .let { compositeDisposable.add(it) }
     }
 
     override fun onPause() {
         super.onPause()
         compositeDisposable.clear()
+    }
+
+    override fun onItemUpdate(key: String, newValue: String) {
+        sharedPref.edit().putString(key, newValue).apply()
     }
 
     companion object {
