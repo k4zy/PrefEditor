@@ -12,7 +12,13 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
 
     val list = ArrayList<Pair<String, String>>()
 
-    val valueClickSubject = PublishSubject.create<Pair<String, String>>()!!
+    val valueClickSubject = PublishSubject.create<Triple<Int, String, String>>()!!
+
+    fun updateItem(position: Int, key: String, value: String) {
+        list.add(position, Pair(key, value))
+        list.removeAt(position + 1)
+        notifyItemChanged(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
         val context = parent.context
@@ -29,7 +35,7 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
         holder.binding.pefValueView.apply {
             text = item.second
             setOnClickListener {
-                valueClickSubject.onNext(item)
+                valueClickSubject.onNext(Triple(position, item.first, item.second))
             }
         }
 

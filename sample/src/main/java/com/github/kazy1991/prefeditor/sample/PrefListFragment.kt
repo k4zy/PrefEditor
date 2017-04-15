@@ -56,8 +56,9 @@ class PrefListFragment : Fragment(), EditDialogCallback {
         compositeDisposable.clear()
     }
 
-    override fun onItemUpdate(key: String, newValue: String) {
+    override fun onItemUpdate(position: Int, key: String, newValue: String) {
         sharedPref.edit().putString(key, newValue).apply()
+        adapter.updateItem(position, key, newValue)
     }
 
     companion object {

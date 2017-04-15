@@ -31,7 +31,7 @@ class EditDialogFragment : DialogFragment() {
             setTitle(title())
             setPositiveButton("上書き", { _, _ ->
                 if (parentFragment is EditDialogCallback) {
-                    (parentFragment as EditDialogCallback).onItemUpdate(key(), newValue())
+                    (parentFragment as EditDialogCallback).onItemUpdate(position(), key(), newValue())
                 }
             })
             setNegativeButton("キャンセル", null)
@@ -40,6 +40,10 @@ class EditDialogFragment : DialogFragment() {
 
     fun newValue(): String {
         return editText.text.toString()
+    }
+
+    fun position(): Int {
+        return arguments.getInt(ARGS_POSITION)
     }
 
     fun key(): String {
@@ -57,21 +61,23 @@ class EditDialogFragment : DialogFragment() {
     }
 
     companion object {
-        val ARGS_VALUE = "args_value"
+        val ARGS_POSITION = "args_position"
         val ARGS_KEY = "args_key"
+        val ARGS_VALUE = "args_value"
         val TAG = EditDialogFragment.javaClass.simpleName!!
 
-        private fun newInstance(key: String, value: String): EditDialogFragment {
+        private fun newInstance(position: Int, key: String, value: String): EditDialogFragment {
             return EditDialogFragment().also {
                 it.arguments = Bundle().apply {
+                    putInt(ARGS_POSITION, position)
                     putString(ARGS_KEY, key)
                     putString(ARGS_VALUE, value)
                 }
             }
         }
 
-        fun show(item: Pair<String, String>, fragment: Fragment) {
-            newInstance(item.first, item.second).show(fragment.childFragmentManager, TAG)
+        fun show(item: Triple<Int, String, String>, fragment: Fragment) {
+            newInstance(item.first, item.second, item.third).show(fragment.childFragmentManager, TAG)
         }
     }
 }
