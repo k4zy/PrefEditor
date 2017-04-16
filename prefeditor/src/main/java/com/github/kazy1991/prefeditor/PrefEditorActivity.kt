@@ -37,13 +37,15 @@ class PrefEditorActivity : AppCompatActivity() {
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
                 .map { it.substring(0, it.lastIndexOf('.')) }
-                .map { NavigationItem(it) }
+                .map { convertToNavagationItem(it) }
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
+
                     navigationAdapter.addAll(it)
                     navigationAdapter.notifyDataSetChanged()
+
                     it.firstOrNull()?.let {
                         val fragment = PrefListFragment.newInstance(it.name)
                         supportFragmentManager.beginTransaction()
@@ -51,10 +53,6 @@ class PrefEditorActivity : AppCompatActivity() {
                                 .commit()
                     }
                 }
-
-        // get pref list
-        // firstItem to Default
-        // toSelected list
 
         navigationAdapter
                 .itemTappedSubject
@@ -65,6 +63,18 @@ class PrefEditorActivity : AppCompatActivity() {
                             .replace(R.id.content_frame, fragment)
                             .commit()
                 }
+    }
+
+    fun convertToNavagationItem(fileName: String): NavigationItem {
+        val defaultPrefName = "${application.packageName}_preferences"
+        when (fileName) {
+            defaultPrefName -> {
+                return NavigationItem(fileName, "DefaultPref")
+            }
+            else -> {
+                return NavigationItem(fileName)
+            }
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
