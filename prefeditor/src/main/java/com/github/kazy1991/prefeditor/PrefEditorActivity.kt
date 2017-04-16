@@ -33,8 +33,6 @@ class PrefEditorActivity : AppCompatActivity() {
             setHomeButtonEnabled(true)
         }
 
-//        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_pref_editor);
-
         Observable.just(File(applicationInfo.dataDir, "shared_prefs"))
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
@@ -47,12 +45,16 @@ class PrefEditorActivity : AppCompatActivity() {
                     navigationAdapter.addAll(it)
                     navigationAdapter.notifyDataSetChanged()
                     it.firstOrNull()?.let {
-                        val fragment = PrefListFragment.newInstance(it.title)
+                        val fragment = PrefListFragment.newInstance(it.name)
                         supportFragmentManager.beginTransaction()
                                 .replace(R.id.content_frame, fragment)
                                 .commit()
                     }
                 }
+
+        // get pref list
+        // firstItem to Default
+        // toSelected list
 
         navigationAdapter
                 .itemTappedSubject
