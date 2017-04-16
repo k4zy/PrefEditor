@@ -2,13 +2,12 @@ package com.github.kazy1991.prefeditor.sample
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.kazy1991.prefeditor.sample.databinding.FragmentPrefListBinding
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,13 +19,12 @@ class PrefListFragment : Fragment(), EditDialogCallback {
 
     val compositeDisposable = CompositeDisposable()
 
-    lateinit var binding: FragmentPrefListBinding
+    val recyclerView by lazy { view?.findViewById(R.id.recycler_view) as RecyclerView }
 
     lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<FragmentPrefListBinding>(inflater!!, R.layout.fragment_pref_list, container, false)
-        return binding.root
+        return inflater?.inflate(R.layout.fragment_pref_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -43,7 +41,7 @@ class PrefListFragment : Fragment(), EditDialogCallback {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
                     adapter.list.addAll(it)
-                    binding.recyclerView.adapter = adapter
+                    recyclerView.adapter = adapter
                 }
                 .let { compositeDisposable.add(it) }
 

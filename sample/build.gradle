@@ -11,9 +11,6 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
@@ -27,11 +24,5 @@ dependencies {
 
     compile 'com.github.kazy1991:PrefKit:0.0.3'
 
-    kapt 'com.android.databinding:compiler:2.3.1'
-
     compile project(':prefeditor')
-}
-
-kapt {
-    generateStubs = true
 }
