@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                     val fragment = PrefListFragment.newInstance(it)
                     supportFragmentManager.beginTransaction()
                             .replace(R.id.content_frame, fragment)
-                            .addToBackStack(null)
                             .commit()
                 }
     }
