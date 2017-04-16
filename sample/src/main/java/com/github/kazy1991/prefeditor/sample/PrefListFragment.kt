@@ -35,6 +35,7 @@ class PrefListFragment : Fragment(), EditDialogCallback {
         sharedPref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
         Observable.just(sharedPref)
+                .doOnSubscribe { adapter.clear() }
                 .flatMap { Observable.fromIterable(it.all.toList()) }
                 .map { (key, value) -> Pair(key, value.toString()) }
                 .toList()

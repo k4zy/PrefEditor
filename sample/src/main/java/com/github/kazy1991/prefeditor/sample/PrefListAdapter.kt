@@ -20,6 +20,11 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
         notifyItemChanged(position)
     }
 
+    fun clear() {
+        list.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
