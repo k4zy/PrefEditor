@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="cell_padding_vertical">15dp</dimen>
+    <dimen name="cell_padding_horizontal">20dp</dimen>
+    <dimen name="indicator_circle_margin">4dp</dimen>
+    <dimen name="indicator_circle_size">9dp</dimen>
+</resources>
