@@ -10,7 +10,7 @@ import java.util.*
 
 class NavigationAdapter(items: MutableList<NavigationItem>) : RecyclerView.Adapter<NavigationAdapter.ViewHolder>() {
 
-    val itemTappedSubject = PublishSubject.create<String>()!!
+    val itemTappedSubject = PublishSubject.create<NavigationItem>()!!
 
     private val items = ArrayList<NavigationItem>()
 
@@ -31,7 +31,7 @@ class NavigationAdapter(items: MutableList<NavigationItem>) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.name.text = item.normalizedName()
-        holder.view.setOnClickListener { itemTappedSubject.onNext(item.name) }
+        holder.view.setOnClickListener { itemTappedSubject.onNext(item) }
     }
 
     override fun getItemCount(): Int {
