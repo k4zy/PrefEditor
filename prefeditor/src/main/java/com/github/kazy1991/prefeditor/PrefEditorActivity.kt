@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor.sample
+package com.github.kazy1991.prefeditor
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,7 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 
-class MainActivity : AppCompatActivity() {
+class PrefEditorActivity : AppCompatActivity() {
 
     val navigationFrame by lazy { findViewById(R.id.navigation_frame) as RecyclerView }
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_pref_editor)
         drawerLayout.addDrawerListener(actionBarToggle)
         val navigationAdapter = NavigationAdapter(ArrayList())
         navigationFrame.adapter = navigationAdapter
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             setHomeButtonEnabled(true)
         }
 
-//        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main);
+//        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_pref_editor);
 
         Observable.just(File(applicationInfo.dataDir, "shared_prefs"))
                 .filter { it.exists() && it.isDirectory }

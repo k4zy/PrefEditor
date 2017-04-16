@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor.sample
+package com.github.kazy1991.prefeditor
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView

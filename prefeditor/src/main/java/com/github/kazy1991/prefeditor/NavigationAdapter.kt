@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor.sample
+package com.github.kazy1991.prefeditor
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
