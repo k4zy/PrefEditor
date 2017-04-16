@@ -14,6 +14,8 @@ import java.io.File
 
 class PrefEditorActivity : AppCompatActivity() {
 
+    val defaultPrefName by lazy { "${application.packageName}_preferences" }
+
     val navigationFrame by lazy { findViewById(R.id.navigation_frame) as RecyclerView }
 
     val drawerLayout by lazy { findViewById(R.id.drawer_layout) as DrawerLayout }
@@ -37,15 +39,16 @@ class PrefEditorActivity : AppCompatActivity() {
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
                 .map { it.substring(0, it.lastIndexOf('.')) }
-                .map { convertToNavagationItem(it) }
+                .toList()
+                .map { sortPrefList(it) }
+                .flatMapObservable { Observable.fromIterable(it) }
+                .map { convertToNavigationItem(it) }
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
-
                     navigationAdapter.addAll(it)
                     navigationAdapter.notifyDataSetChanged()
-
                     it.firstOrNull()?.let {
                         val fragment = PrefListFragment.newInstance(it.name)
                         supportFragmentManager.beginTransaction()
@@ -65,8 +68,7 @@ class PrefEditorActivity : AppCompatActivity() {
                 }
     }
 
-    fun convertToNavagationItem(fileName: String): NavigationItem {
-        val defaultPrefName = "${application.packageName}_preferences"
+    fun convertToNavigationItem(fileName: String): NavigationItem {
         when (fileName) {
             defaultPrefName -> {
                 return NavigationItem(fileName, "DefaultPref")
@@ -74,6 +76,14 @@ class PrefEditorActivity : AppCompatActivity() {
             else -> {
                 return NavigationItem(fileName)
             }
+        }
+    }
+
+    fun sortPrefList(list: List<String>): List<String> {
+        if (list.contains(defaultPrefName)) {
+            return list.filter { it != defaultPrefName }.toMutableList().apply { add(0, defaultPrefName) }
+        } else {
+            return list
         }
     }
 
