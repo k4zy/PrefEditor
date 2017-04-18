@@ -7,9 +7,14 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.Spinner
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
 import com.github.kazy1991.prefeditor.view.PrefEditorView
 import java.io.File
+
 
 class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
 
@@ -23,12 +28,16 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
 
     val navigationAdapter = NavigationAdapter(ArrayList())
 
+    val spinner by lazy { findViewById(R.id.spinner) as Spinner }
+
     lateinit var presenter: PrefEditorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        presenter = PrefEditorPresenter(this, File(applicationInfo.dataDir, "shared_prefs"), "${application.packageName}_preferences")
+        val basedir = File(applicationInfo.dataDir, "shared_prefs")
+        val defaultPrefName = "${application.packageName}_preferences"
+        presenter = PrefEditorPresenter(this, basedir, defaultPrefName)
 
         drawerLayout.addDrawerListener(actionBarToggle)
         navigationFrame.adapter = navigationAdapter
@@ -47,6 +56,20 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
     override fun updateNavigation(list: List<NavigationItem>) {
         navigationAdapter.addAll(list)
         navigationAdapter.notifyDataSetChanged()
+        val adapter = SchemaSpinnerAdapter(this, list)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, _: View?, position: Int, _: Long) {
+                parent?.getItemAtPosition(position)?.let {
+                    if (it is NavigationItem) {
+                        onNavigationItemTapped(it)
+                    }
+                }
+            }
+        }
     }
 
     override fun setupDefaultFragment(prefName: String) {
