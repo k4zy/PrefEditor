@@ -62,7 +62,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, _: View?, position: Int, _: Long) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.getItemAtPosition(position)?.let {
                     if (it is NavigationItem) {
                         onNavigationItemTapped(it)
