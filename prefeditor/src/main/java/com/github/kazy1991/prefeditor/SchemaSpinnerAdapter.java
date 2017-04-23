@@ -24,16 +24,16 @@ public class SchemaSpinnerAdapter extends ArrayAdapter<NavigationItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         NavigationItem item = getItem(position);
-        View view = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
-        ((TextView) view).setText(item.normalizedName());
+        View view = inflater.inflate(R.layout.cell_spinner, parent, false);
+        ((TextView) view.findViewById(R.id.text)).setText(item.normalizedName());
         return view;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         NavigationItem item = getItem(position);
-        View view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
-        ((TextView) view).setText(item.normalizedName());
+        View view = inflater.inflate(R.layout.cell_spinner, parent, false);
+        ((TextView) view.findViewById(R.id.text)).setText(item.normalizedName());
         return view;
     }
 }
