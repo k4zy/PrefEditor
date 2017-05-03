@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.kazy1991.prefeditor.view.EditDialogFragment
+import com.github.kazy1991.prefeditor.callback.EditDialogCallback
+import com.github.kazy1991.prefeditor.adapter.PrefListAdapter
+import com.github.kazy1991.prefeditor.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

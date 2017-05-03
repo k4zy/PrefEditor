@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor;
+package com.github.kazy1991.prefeditor.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.github.kazy1991.prefeditor.R;
+import com.github.kazy1991.prefeditor.model.PrefItem;
 
 import java.util.List;
 

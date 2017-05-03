@@ -1,12 +1,12 @@
 package com.github.kazy1991.prefeditor.usecase
 
 import android.content.Context
-import com.github.kazy1991.prefeditor.PrefItem
+import com.github.kazy1991.prefeditor.model.PrefItem
 import com.github.kazy1991.prefeditor.repository.PrefListRepository
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class PrefEditorUseCaseImpl(val context: Context, val prefListRepository: PrefListRepository) : PrefEditorUseCase {
+class PrefEditorUseCaseImpl(context: Context, val prefListRepository: PrefListRepository) : PrefEditorUseCase {
 
     val defaultPrefName = "${context.applicationContext.packageName}_preferences"
 
