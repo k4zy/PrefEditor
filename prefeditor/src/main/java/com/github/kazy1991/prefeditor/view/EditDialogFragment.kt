@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view
 
 
 import android.annotation.SuppressLint
@@ -13,6 +13,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Spinner
+import com.github.kazy1991.prefeditor.EditDialogCallback
+import com.github.kazy1991.prefeditor.R
 
 class EditDialogFragment : DialogFragment() {
 

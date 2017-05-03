@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view
 
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
@@ -13,8 +13,7 @@ import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
 import com.github.kazy1991.prefeditor.view.PrefEditorView
 import java.io.File
 import android.support.v4.widget.SearchViewCompat.setOnQueryTextListener
-
-
+import com.github.kazy1991.prefeditor.*
 
 
 class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
