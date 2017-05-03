@@ -1,6 +1,7 @@
 package com.github.kazy1991.prefeditor.view
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
@@ -9,9 +10,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Spinner
-import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
-import java.io.File
 import com.github.kazy1991.prefeditor.*
+import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
 
 
 class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
@@ -20,24 +20,22 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
 
     val spinner by lazy { findViewById(R.id.spinner) as Spinner }
 
-    var searchView : SearchView? = null
+    var searchView: SearchView? = null
 
     lateinit var presenter: PrefEditorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        val basedir = File(applicationInfo.dataDir, "shared_prefs")
-        val defaultPrefName = "${application.packageName}_preferences"
-        presenter = PrefEditorPresenter(this, basedir, defaultPrefName)
+        presenter = PrefEditorPresenter(this, this)
         navigationAdapter
                 .itemTappedSubject
                 .subscribe { it ->
-                    onNavigationItemTapped(it)
+                    onItemTapped(it)
                 }
     }
 
-    override fun updateNavigation(list: List<NavigationItem>) {
+    override fun updatePrefNameList(list: List<PrefItem>) {
         navigationAdapter.addAll(list)
         navigationAdapter.notifyDataSetChanged()
         val adapter = SchemaSpinnerAdapter(this, list)
@@ -48,8 +46,8 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.getItemAtPosition(position)?.let {
-                    if (it is NavigationItem) {
-                        onNavigationItemTapped(it)
+                    if (it is PrefItem) {
+                        onItemTapped(it)
                     }
                 }
             }
@@ -57,7 +55,6 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         val inflater = menuInflater
         inflater.inflate(R.menu.search_menu, menu)
         val menuItem = menu?.findItem(R.id.toolbar_menu_search)
@@ -78,15 +75,15 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun setupDefaultFragment(prefName: String) {
-        val fragment = PrefListFragment.newInstance(prefName)
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit()
+    override fun setupDefaultPrefList(prefName: String) {
+        replaceFragment(PrefListFragment.newInstance(prefName))
     }
 
-    override fun onNavigationItemTapped(item: NavigationItem) {
-        val fragment = PrefListFragment.newInstance(item.name)
+    override fun onItemTapped(item: PrefItem) {
+        replaceFragment(PrefListFragment.newInstance(item.name))
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit()

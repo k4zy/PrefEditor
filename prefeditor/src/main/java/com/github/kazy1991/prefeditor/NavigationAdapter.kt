@@ -8,17 +8,17 @@ import android.widget.TextView
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 
-class NavigationAdapter(items: MutableList<NavigationItem>) : RecyclerView.Adapter<NavigationAdapter.ViewHolder>() {
+class NavigationAdapter(items: MutableList<PrefItem>) : RecyclerView.Adapter<NavigationAdapter.ViewHolder>() {
 
-    val itemTappedSubject = PublishSubject.create<NavigationItem>()!!
+    val itemTappedSubject = PublishSubject.create<PrefItem>()!!
 
-    private val items = ArrayList<NavigationItem>()
+    private val items = ArrayList<PrefItem>()
 
     init {
         this.items.addAll(items)
     }
 
-    fun addAll(items: List<NavigationItem>) {
+    fun addAll(items: List<PrefItem>) {
         this.items.addAll(items)
     }
 

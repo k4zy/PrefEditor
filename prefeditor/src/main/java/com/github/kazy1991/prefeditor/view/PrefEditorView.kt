@@ -1,12 +1,12 @@
 package com.github.kazy1991.prefeditor.view
 
-import com.github.kazy1991.prefeditor.NavigationItem
+import com.github.kazy1991.prefeditor.PrefItem
 
 interface PrefEditorView {
 
-    fun updateNavigation(list: List<NavigationItem>)
+    fun updatePrefNameList(list: List<PrefItem>)
 
-    fun setupDefaultFragment(prefName: String)
+    fun setupDefaultPrefList(prefName: String)
 
-    fun onNavigationItemTapped(item: NavigationItem)
+    fun onItemTapped(item: PrefItem)
 }

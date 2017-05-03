@@ -1,7 +1,7 @@
 package com.github.kazy1991.prefeditor
 
 
-class NavigationItem {
+class PrefItem {
 
     val name: String
 

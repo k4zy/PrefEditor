@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class SchemaSpinnerAdapter extends ArrayAdapter<NavigationItem> {
+public class SchemaSpinnerAdapter extends ArrayAdapter<PrefItem> {
 
     private LayoutInflater inflater;
 
-    public SchemaSpinnerAdapter(@NonNull Context context, @NonNull List<NavigationItem> objects) {
+    public SchemaSpinnerAdapter(@NonNull Context context, @NonNull List<PrefItem> objects) {
         super(context, 0, objects);
         inflater = LayoutInflater.from(context);
     }
@@ -23,7 +23,7 @@ public class SchemaSpinnerAdapter extends ArrayAdapter<NavigationItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        NavigationItem item = getItem(position);
+        PrefItem item = getItem(position);
         View view = inflater.inflate(R.layout.cell_spinner, parent, false);
         ((TextView) view.findViewById(R.id.text)).setText(item.normalizedName());
         return view;
@@ -31,7 +31,7 @@ public class SchemaSpinnerAdapter extends ArrayAdapter<NavigationItem> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        NavigationItem item = getItem(position);
+        PrefItem item = getItem(position);
         View view = inflater.inflate(R.layout.cell_spinner, parent, false);
         ((TextView) view.findViewById(R.id.text)).setText(item.normalizedName());
         return view;
