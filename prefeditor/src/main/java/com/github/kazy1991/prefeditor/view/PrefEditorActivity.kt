@@ -10,9 +10,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Spinner
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
-import com.github.kazy1991.prefeditor.view.PrefEditorView
 import java.io.File
-import android.support.v4.widget.SearchViewCompat.setOnQueryTextListener
 import com.github.kazy1991.prefeditor.*
 
 
