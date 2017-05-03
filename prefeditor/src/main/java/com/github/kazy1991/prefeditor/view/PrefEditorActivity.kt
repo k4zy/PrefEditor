@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.widget.Spinner
-import com.github.kazy1991.prefeditor.*
+import com.github.kazy1991.prefeditor.R
 import com.github.kazy1991.prefeditor.adapter.SchemaSpinnerAdapter
+import com.github.kazy1991.prefeditor.callback.SearchViewWrapperCallback
 import com.github.kazy1991.prefeditor.callback.SpinnerWrapperCallback
 import com.github.kazy1991.prefeditor.model.PrefItem
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
@@ -39,12 +40,10 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
         searchView = (MenuItemCompat.getActionView(menuItem) as SearchView).apply {
             setIconifiedByDefault(true)
             isSubmitButtonEnabled = false
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
+            setOnSearchClickListener { presenter.startSearch() }
+            setOnQueryTextListener(object : SearchViewWrapperCallback {
+                override fun onTextChange(newText: String): Boolean {
+                    presenter.onSearchTextChanged(newText)
                     return false
                 }
             })

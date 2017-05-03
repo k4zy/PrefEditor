@@ -21,4 +21,12 @@ class PrefEditorPresenter(val view: PrefEditorView, prefEditorUseCase: PrefEdito
         view.replacePrefView(item.name)
     }
 
+    fun startSearch() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun onSearchTextChanged(newText: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }
