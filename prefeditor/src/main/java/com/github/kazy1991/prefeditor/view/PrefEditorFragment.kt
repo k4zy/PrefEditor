@@ -18,6 +18,8 @@ class PrefEditorFragment : Fragment(), PrefEditorView {
 
     val spinner by lazy { view?.findViewById(R.id.spinner) as Spinner }
 
+    var spinnerAdapter: SchemaSpinnerAdapter? = null
+
     lateinit var presenter: PrefEditorPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,7 +41,9 @@ class PrefEditorFragment : Fragment(), PrefEditorView {
     }
 
     override fun updatePrefNameList(list: List<PrefItem>) {
-        spinner.adapter = SchemaSpinnerAdapter(context, list)
+        spinnerAdapter = SchemaSpinnerAdapter(context, list)
+        spinner.adapter = spinnerAdapter
+        spinnerAdapter?.notifyDataSetChanged()
         spinner.onItemSelectedListener = object : SpinnerWrapperCallback {
             override fun onItemSelected(item: PrefItem) {
                 presenter.onItemTapped(item)

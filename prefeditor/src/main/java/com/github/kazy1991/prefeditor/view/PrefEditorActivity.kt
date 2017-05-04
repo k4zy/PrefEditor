@@ -12,10 +12,14 @@ class PrefEditorActivity : AppCompatActivity() {
 
     var searchView: SearchView? = null
 
+    val prefEditorFragment = PrefEditorFragment.newInstance()
+
+    val searchFragment = SearchFragment.newInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        replaceFragment(PrefEditorFragment.newInstance())
+        replaceFragment(prefEditorFragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -25,7 +29,8 @@ class PrefEditorActivity : AppCompatActivity() {
         searchView = (MenuItemCompat.getActionView(menuItem) as SearchView).apply {
             setIconifiedByDefault(true)
             isSubmitButtonEnabled = false
-//            setOnSearchClickListener { presenter.startSearch() }
+            setOnSearchClickListener { replaceFragment(searchFragment) }
+            setOnCloseListener { replaceFragment(prefEditorFragment).run { false } }
 //            setOnQueryTextListener(object : SearchViewWrapperCallback {
 //                override fun onTextChange(newText: String): Boolean {
 //                    presenter.onSearchTextChanged(newText)
@@ -42,4 +47,7 @@ class PrefEditorActivity : AppCompatActivity() {
                 .commit()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }
