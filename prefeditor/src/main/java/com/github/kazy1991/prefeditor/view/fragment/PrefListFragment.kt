@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,12 +8,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.kazy1991.prefeditor.R
+import com.github.kazy1991.prefeditor.contract.PrefListContract
+import com.github.kazy1991.prefeditor.view.dialog.EditDialogFragment
+import com.github.kazy1991.prefeditor.view.recyclerview.adapter.PrefListAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PrefListFragment : Fragment(), EditDialogCallback {
+class PrefListFragment : Fragment(), PrefListContract.View {
 
     val adapter = PrefListAdapter()
 

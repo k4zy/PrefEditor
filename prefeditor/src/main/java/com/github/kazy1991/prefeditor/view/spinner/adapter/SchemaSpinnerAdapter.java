@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor;
+package com.github.kazy1991.prefeditor.view.spinner.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.github.kazy1991.prefeditor.entity.NavigationItem;
+import com.github.kazy1991.prefeditor.R;
 
 import java.util.List;
 

@@ -1,14 +1,14 @@
 package com.github.kazy1991.prefeditor.presenter
 
-import com.github.kazy1991.prefeditor.NavigationItem
-import com.github.kazy1991.prefeditor.view.PrefEditorView
+import com.github.kazy1991.prefeditor.contract.PrefEditorContract
+import com.github.kazy1991.prefeditor.entity.NavigationItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 
 
-class PrefEditorPresenter(val view: PrefEditorView, val prefDir: File, val defaultPrefName: String) {
+class PrefEditorPresenter(val view: PrefEditorContract.View, val prefDir: File, val defaultPrefName: String) {
 
     init {
         Observable.just(prefDir)

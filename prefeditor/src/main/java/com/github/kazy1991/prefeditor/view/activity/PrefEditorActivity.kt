@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,12 +6,17 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Spinner
+import com.github.kazy1991.prefeditor.*
+import com.github.kazy1991.prefeditor.contract.PrefEditorContract
+import com.github.kazy1991.prefeditor.entity.NavigationItem
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
-import com.github.kazy1991.prefeditor.view.PrefEditorView
+import com.github.kazy1991.prefeditor.view.fragment.PrefListFragment
+import com.github.kazy1991.prefeditor.view.recyclerview.adapter.NavigationAdapter
+import com.github.kazy1991.prefeditor.view.spinner.adapter.SchemaSpinnerAdapter
 import java.io.File
 
 
-class PrefEditorActivity : AppCompatActivity(), PrefEditorView {
+class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
 
     val navigationAdapter = NavigationAdapter(ArrayList())
 

@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.entity
 
 
 class NavigationItem {

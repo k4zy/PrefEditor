@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view.dialog
 
 
 import android.annotation.SuppressLint
@@ -13,8 +13,15 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Spinner
+import com.github.kazy1991.prefeditor.R
+
 
 class EditDialogFragment : DialogFragment() {
+
+    interface Callback {
+
+        fun onItemUpdate(position: Int, key: String, newValue: String)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +36,8 @@ class EditDialogFragment : DialogFragment() {
             setView(customView())
             setTitle(title())
             setPositiveButton("上書き", { _, _ ->
-                if (parentFragment is EditDialogCallback) {
-                    (parentFragment as EditDialogCallback).onItemUpdate(position(), key(), newValue())
+                if (parentFragment is Callback) {
+                    (parentFragment as Callback).onItemUpdate(position(), key(), newValue())
                 }
             })
             setNegativeButton("キャンセル", null)

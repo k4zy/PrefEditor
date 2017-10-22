@@ -7,7 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name="com.github.kazy1991.prefeditor.PrefEditorActivity">
+        <activity android:name="com.github.kazy1991.prefeditor.view.activity.PrefEditorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
