@@ -6,14 +6,13 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Spinner
-import com.github.kazy1991.prefeditor.*
+import com.github.kazy1991.prefeditor.R
 import com.github.kazy1991.prefeditor.contract.PrefEditorContract
 import com.github.kazy1991.prefeditor.entity.NavigationItem
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
 import com.github.kazy1991.prefeditor.view.fragment.PrefListFragment
 import com.github.kazy1991.prefeditor.view.recyclerview.adapter.NavigationAdapter
 import com.github.kazy1991.prefeditor.view.spinner.adapter.SchemaSpinnerAdapter
-import java.io.File
 
 
 class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
@@ -27,9 +26,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        val basedir = File(applicationInfo.dataDir, "shared_prefs")
-        val defaultPrefName = "${application.packageName}_preferences"
-        presenter = PrefEditorPresenter(this, basedir, defaultPrefName)
+        presenter = PrefEditorPresenter(this, this)
         navigationAdapter
                 .itemTappedSubject
                 .subscribe { it ->
