@@ -21,6 +21,8 @@ class PrefEditorPresenter(val view: PrefEditorContract.View, context: Context) {
                         view.setupDefaultFragment(it.name)
                     }
                 }
+        view.spinnerSelectedItems
+                .subscribe { view.onSchemaItemTapped(it) }
     }
 
 

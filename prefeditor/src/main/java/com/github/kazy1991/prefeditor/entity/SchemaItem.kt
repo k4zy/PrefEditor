@@ -1,7 +1,7 @@
 package com.github.kazy1991.prefeditor.entity
 
 
-class NavigationItem {
+class SchemaItem {
 
     val name: String
 

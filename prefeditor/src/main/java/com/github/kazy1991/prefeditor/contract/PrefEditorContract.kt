@@ -1,16 +1,19 @@
 package com.github.kazy1991.prefeditor.contract
 
-import com.github.kazy1991.prefeditor.entity.NavigationItem
+import com.github.kazy1991.prefeditor.entity.SchemaItem
+import io.reactivex.subjects.PublishSubject
 
 interface PrefEditorContract {
 
     interface View {
 
-        fun updateNavigation(list: List<NavigationItem>)
+        val spinnerSelectedItems: PublishSubject<SchemaItem>
+
+        fun updateNavigation(list: List<SchemaItem>)
 
         fun setupDefaultFragment(prefName: String)
 
-        fun onNavigationItemTapped(item: NavigationItem)
+        fun onSchemaItemTapped(item: SchemaItem)
     }
 
     interface Interactor {
