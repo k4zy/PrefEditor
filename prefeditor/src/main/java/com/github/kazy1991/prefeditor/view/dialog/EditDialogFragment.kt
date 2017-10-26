@@ -59,7 +59,7 @@ class EditDialogFragment : DialogFragment() {
     fun normalCustomView(): View {
         val inflater = LayoutInflater.from(context)
         val customView = inflater.inflate(R.layout.dialog_edit, null, false)
-        (customView.findViewById(R.id.value_edit_text) as EditText).also {
+        (customView.findViewById<EditText>(R.id.value_edit_text)).also {
             this.editText = it
             it.inputType = inputType()
             it.append(value())
@@ -71,7 +71,7 @@ class EditDialogFragment : DialogFragment() {
     fun booleanCustomView(): View {
         val inflater = LayoutInflater.from(context)
         val customView = inflater.inflate(R.layout.dialog_boolean_edit, null, false)
-        (customView.findViewById(R.id.boolean_spinner) as Spinner).also {
+        (customView.findViewById<Spinner>(R.id.boolean_spinner)).also {
             this.booleanSpinner = it
             it.setSelection(selection())
         }

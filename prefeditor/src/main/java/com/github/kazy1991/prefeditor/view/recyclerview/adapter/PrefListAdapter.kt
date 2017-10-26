@@ -44,7 +44,6 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
             }
         }
 
-
         if (position % 2 == 0) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         } else {
@@ -57,8 +56,8 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val prefKeyView by lazy { itemView.findViewById(R.id.pref_key_view) as TextView }
-        val prefValueView by lazy { itemView.findViewById(R.id.pref_value_view) as TextView }
+        val prefKeyView by lazy { itemView.findViewById<TextView>(R.id.pref_key_view)  }
+        val prefValueView by lazy { itemView.findViewById<TextView>(R.id.pref_value_view) }
     }
 
 }

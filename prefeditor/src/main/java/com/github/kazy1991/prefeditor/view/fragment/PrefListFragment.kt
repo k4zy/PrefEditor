@@ -23,7 +23,7 @@ class PrefListFragment : Fragment(), PrefListContract.View {
 
     val compositeDisposable = CompositeDisposable()
 
-    val recyclerView by lazy { view?.findViewById(R.id.recycler_view) as RecyclerView }
+    val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.recycler_view) }
 
     lateinit var sharedPref: SharedPreferences
 
@@ -45,7 +45,7 @@ class PrefListFragment : Fragment(), PrefListContract.View {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
                     adapter.list.addAll(it)
-                    recyclerView.adapter = adapter
+                    recyclerView?.adapter = adapter
                 }
                 .let { compositeDisposable.add(it) }
 

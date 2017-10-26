@@ -25,7 +25,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
         PrefEditorPresenter(this, this)
 
         adapter = SchemaSpinnerAdapter(this)
-        val spinner = findViewById(R.id.spinner) as Spinner
+        val spinner: Spinner = findViewById(R.id.spinner)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = SchemaSpinnerListener(spinnerSelectedItems)
     }
