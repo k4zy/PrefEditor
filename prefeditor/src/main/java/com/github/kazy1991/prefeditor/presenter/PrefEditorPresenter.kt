@@ -12,7 +12,7 @@ class PrefEditorPresenter(val view: PrefEditorContract.View, context: Context) {
     private val interactor = PrefEditorInteractor(context)
 
     init {
-        interactor.navigationItems()
+        interactor.schemaItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->

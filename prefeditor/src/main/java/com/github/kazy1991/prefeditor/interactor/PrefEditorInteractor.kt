@@ -12,7 +12,7 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
     private val prefDir = File(context.applicationInfo.dataDir, "shared_prefs")
     private val defaultPrefName = "${context.applicationInfo.packageName}_preferences"
 
-    fun navigationItems(): Single<List<SchemaItem>> {
+    fun schemaItems(): Single<List<SchemaItem>> {
         return Observable.just(prefDir)
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
