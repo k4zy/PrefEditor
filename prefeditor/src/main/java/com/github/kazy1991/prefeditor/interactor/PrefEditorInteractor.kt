@@ -1,6 +1,7 @@
 package com.github.kazy1991.prefeditor.interactor
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.github.kazy1991.prefeditor.contract.PrefEditorContract
 import com.github.kazy1991.prefeditor.entity.SchemaItem
 import io.reactivex.Observable
@@ -10,7 +11,12 @@ import java.io.File
 class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
 
     private val prefDir = File(context.applicationInfo.dataDir, "shared_prefs")
-    private val defaultPrefName = "${context.applicationInfo.packageName}_preferences"
+
+    @VisibleForTesting
+    val defaultPrefName = "${context.applicationInfo.packageName}_preferences"
+
+    @VisibleForTesting
+    val defaultPrefAnnotatedName =  "DefaultPreference"
 
     fun schemaItems(): Single<List<SchemaItem>> {
         return Observable.just(prefDir)
@@ -27,7 +33,7 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
     fun convertToNavigationItem(fileName: String): SchemaItem {
         return when (fileName) {
             defaultPrefName -> {
-                SchemaItem(fileName, "DefaultPref")
+                SchemaItem(fileName, defaultPrefAnnotatedName)
             }
             else -> {
                 SchemaItem(fileName)
