@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.view.LayoutInflater
@@ -163,8 +163,8 @@ class EditDialogFragment : DialogFragment() {
             }
         }
 
-        fun show(item: Triple<Int, String, String>, fragment: Fragment) {
-            newInstance(item.first, item.second, item.third).show(fragment.childFragmentManager, TAG)
+        fun show(item: Triple<Int, String, String>, fragmentManager: FragmentManager) {
+            newInstance(item.first, item.second, item.third).show(fragmentManager, TAG)
         }
     }
 }

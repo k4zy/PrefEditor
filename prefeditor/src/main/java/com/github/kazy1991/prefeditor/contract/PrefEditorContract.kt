@@ -1,6 +1,7 @@
 package com.github.kazy1991.prefeditor.contract
 
 import com.github.kazy1991.prefeditor.entity.SchemaItem
+import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 
 interface PrefEditorContract {
@@ -9,7 +10,7 @@ interface PrefEditorContract {
 
         val spinnerSelectedItems: PublishSubject<SchemaItem>
 
-        fun updateNavigation(list: List<SchemaItem>)
+        fun updateSchemaItems(list: List<SchemaItem>)
 
         fun setupDefaultFragment(prefName: String)
 

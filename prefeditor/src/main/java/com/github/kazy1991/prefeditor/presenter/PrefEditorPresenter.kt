@@ -16,7 +16,7 @@ class PrefEditorPresenter(val view: PrefEditorContract.View, context: Context) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
-                    view.updateNavigation(it)
+                    view.updateSchemaItems(it)
                     it.firstOrNull()?.let {
                         view.setupDefaultFragment(it.name)
                     }

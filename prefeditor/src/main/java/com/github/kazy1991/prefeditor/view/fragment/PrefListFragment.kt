@@ -4,27 +4,30 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.kazy1991.prefeditor.R
 import com.github.kazy1991.prefeditor.contract.PrefListContract
-import com.github.kazy1991.prefeditor.view.dialog.EditDialogFragment
+import com.github.kazy1991.prefeditor.presenter.PrefListPresenter
 import com.github.kazy1991.prefeditor.view.recyclerview.adapter.PrefListAdapter
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 class PrefListFragment : Fragment(), PrefListContract.View {
 
-    val adapter = PrefListAdapter()
+    override val valueClickSubject: PublishSubject<Triple<Int, String, String>>
+        get() = adapter.valueClickSubject
 
-    val compositeDisposable = CompositeDisposable()
+    private val adapter = PrefListAdapter()
 
-    val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.recycler_view) }
+    private val compositeDisposable = CompositeDisposable()
 
+    private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.recycler_view) }
+
+    // todo: remove
     lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,24 +37,13 @@ class PrefListFragment : Fragment(), PrefListContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val prefName = arguments.getString(ARGS_PREF_NAME)
+
+        recyclerView?.adapter = adapter
+
+        PrefListPresenter(this, context, prefName)
+
         sharedPref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
-        Observable.just(sharedPref)
-                .doOnSubscribe { adapter.clear() }
-                .flatMap { Observable.fromIterable(it.all.toList()) }
-                .map { (key, value) -> Pair(key, value.toString()) }
-                .toList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { it ->
-                    adapter.list.addAll(it)
-                    recyclerView?.adapter = adapter
-                }
-                .let { compositeDisposable.add(it) }
-
-        adapter.valueClickSubject
-                .subscribe({ it -> EditDialogFragment.show(it, this) })
-                .let { compositeDisposable.add(it) }
     }
 
     override fun onDestroyView() {
@@ -59,9 +51,23 @@ class PrefListFragment : Fragment(), PrefListContract.View {
         compositeDisposable.clear()
     }
 
+    override fun clearList() {
+        adapter.clear()
+    }
+
+    override fun updateKeyValueList(list: List<Pair<String, String>>) {
+        adapter.list.addAll(list)
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onItemUpdate(position: Int, key: String, newValue: String) {
         sharedPref.edit().putString(key, newValue).apply()
         adapter.updateItem(position, key, newValue)
+    }
+
+    // todo: Fix bad practice. thinking a good idea...
+    override fun fragmentManager(): FragmentManager {
+        return childFragmentManager
     }
 
     companion object {

@@ -30,7 +30,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
         spinner.onItemSelectedListener = SchemaSpinnerListener(spinnerSelectedItems)
     }
 
-    override fun updateNavigation(list: List<SchemaItem>) {
+    override fun updateSchemaItems(list: List<SchemaItem>) {
         adapter.addAll(list)
         adapter.notifyDataSetChanged()
     }
