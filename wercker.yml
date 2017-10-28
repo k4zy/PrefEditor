@@ -4,7 +4,7 @@ build:
     username: _json_key
     password: $GCR_JSON_KEY_FILE
     registry: gcr.io
-    tag: 80419ac44ac6f4598546b0cffd77a643cbe72d96
+    tag: 3910355b032e4b8e642152a7342055ee1c4f6450
   steps:
     - script:
         name: test

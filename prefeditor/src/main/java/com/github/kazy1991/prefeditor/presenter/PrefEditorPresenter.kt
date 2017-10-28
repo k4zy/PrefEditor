@@ -1,51 +1,39 @@
 package com.github.kazy1991.prefeditor.presenter
 
-import com.github.kazy1991.prefeditor.NavigationItem
-import com.github.kazy1991.prefeditor.view.PrefEditorView
-import io.reactivex.Observable
+import android.content.Context
+import com.github.kazy1991.prefeditor.base.Presenter
+import com.github.kazy1991.prefeditor.contract.PrefEditorContract
+import com.github.kazy1991.prefeditor.interactor.PrefEditorInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.io.File
 
 
-class PrefEditorPresenter(val view: PrefEditorView, val prefDir: File, val defaultPrefName: String) {
+class PrefEditorPresenter(val view: PrefEditorContract.View, context: Context) : Presenter {
 
-    init {
-        Observable.just(prefDir)
-                .filter { it.exists() && it.isDirectory }
-                .flatMap { Observable.fromIterable(it.list().toList()) }
-                .map { it.substring(0, it.lastIndexOf('.')) }
-                .toList()
-                .map { sortPrefList(it) }
-                .flatMapObservable { Observable.fromIterable(it) }
-                .map { convertToNavigationItem(it) }
-                .toList()
+    private val interactor = PrefEditorInteractor(context)
+
+    private val compositeDisposable = CompositeDisposable()
+
+    override fun onAttach() {
+        interactor.schemaItems
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
-                    view.updateNavigation(it)
+                    view.updateSchemaItems(it)
                     it.firstOrNull()?.let {
-                        view.setupDefaultFragment(it.name)
+                        view.replacePrefSchema(it.name)
                     }
                 }
+                .let { compositeDisposable.add(it) }
+
+        view.spinnerSelectedItems
+                .subscribe { view.replacePrefSchema(it.name) }
+                .let { compositeDisposable.add(it) }
     }
 
-    fun convertToNavigationItem(fileName: String): NavigationItem {
-        when (fileName) {
-            defaultPrefName -> {
-                return NavigationItem(fileName, "DefaultPref")
-            }
-            else -> {
-                return NavigationItem(fileName)
-            }
-        }
+    override fun onDetach() {
+        compositeDisposable.clear()
     }
 
-    fun sortPrefList(list: List<String>): List<String> {
-        if (list.contains(defaultPrefName)) {
-            return list.filter { it != defaultPrefName }.toMutableList().apply { add(0, defaultPrefName) }
-        } else {
-            return list
-        }
-    }
 }

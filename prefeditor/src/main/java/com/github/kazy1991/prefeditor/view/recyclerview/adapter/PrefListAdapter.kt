@@ -1,4 +1,4 @@
-package com.github.kazy1991.prefeditor
+package com.github.kazy1991.prefeditor.view.recyclerview.adapter
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.github.kazy1991.prefeditor.R
 import io.reactivex.subjects.PublishSubject
 
 class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
@@ -43,7 +44,6 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
             }
         }
 
-
         if (position % 2 == 0) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         } else {
@@ -56,8 +56,8 @@ class PrefListAdapter : RecyclerView.Adapter<PrefListAdapter.ViewHolder>() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val prefKeyView by lazy { itemView.findViewById(R.id.pref_key_view) as TextView }
-        val prefValueView by lazy { itemView.findViewById(R.id.pref_value_view) as TextView }
+        val prefKeyView by lazy { itemView.findViewById<TextView>(R.id.pref_key_view)  }
+        val prefValueView by lazy { itemView.findViewById<TextView>(R.id.pref_value_view) }
     }
 
 }
