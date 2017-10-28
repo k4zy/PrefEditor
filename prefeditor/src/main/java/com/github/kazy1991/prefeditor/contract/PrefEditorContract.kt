@@ -12,9 +12,7 @@ interface PrefEditorContract {
 
         fun updateSchemaItems(list: List<SchemaItem>)
 
-        fun setupDefaultFragment(prefName: String)
-
-        fun onSchemaItemTapped(item: SchemaItem)
+        fun replacePrefSchema(prefName: String)
     }
 
     interface Interactor {

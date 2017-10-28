@@ -1,5 +1,6 @@
 package com.github.kazy1991.prefeditor.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -16,16 +17,18 @@ import kotlinx.android.synthetic.main.fragment_pref_list.*
 
 class PrefListFragment : Fragment(), PrefListContract.View {
 
-    private val prefName: String
-        get() = arguments.getString(ARGS_PREF_NAME)
-
     override val fragmentManagerProxy: FragmentManager
         get() = childFragmentManager
 
     override val valueClickSubject: Flowable<Triple<Int, String, String>>
         get() = adapter.valueClickSubject.toFlowable(BackpressureStrategy.LATEST)
 
+    private val prefName: String
+        get() = arguments.getString(ARGS_PREF_NAME)
+
     private val adapter = PrefListAdapter()
+
+    private lateinit var presenter: PrefListPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_pref_list, container, false)
@@ -34,7 +37,17 @@ class PrefListFragment : Fragment(), PrefListContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.adapter = adapter
-        PrefListPresenter(this, context, prefName)
+        presenter = PrefListPresenter(this, context, prefName)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        presenter.onAttach()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        presenter.onDetach()
     }
 
     override fun clearList() {

@@ -16,10 +16,10 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
     val defaultPrefName = "${context.applicationInfo.packageName}_preferences"
 
     @VisibleForTesting
-    val defaultPrefAnnotatedName =  "DefaultPreference"
+    val defaultPrefAnnotatedName = "DefaultPreference"
 
-    fun schemaItems(): Single<List<SchemaItem>> {
-        return Observable.just(prefDir)
+    val schemaItems: Single<List<SchemaItem>>
+        get() = Observable.just(prefDir)
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
                 .map { it.substring(0, it.lastIndexOf('.')) }
@@ -28,7 +28,6 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
                 .flatMapObservable { Observable.fromIterable(it) }
                 .map { convertToNavigationItem(it) }
                 .toList()
-    }
 
     fun convertToNavigationItem(fileName: String): SchemaItem {
         return when (fileName) {

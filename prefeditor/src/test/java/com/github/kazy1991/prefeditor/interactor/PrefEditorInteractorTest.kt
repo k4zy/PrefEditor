@@ -34,7 +34,7 @@ class PrefEditorInteractorTest {
         val observer: TestObserver<List<SchemaItem>> = TestObserver.create()
 
         //When
-        prefInteractor.schemaItems().subscribe(observer)
+        prefInteractor.schemaItems.subscribe(observer)
 
         //Then
         val expected = prefNameSet.map { SchemaItem(it) }

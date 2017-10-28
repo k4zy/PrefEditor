@@ -19,10 +19,13 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
 
     lateinit var adapter: SchemaSpinnerAdapter
 
+    lateinit var presenter: PrefEditorPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        PrefEditorPresenter(this, this)
+        presenter = PrefEditorPresenter(this, this)
+        presenter.onAttach()
 
         adapter = SchemaSpinnerAdapter(this)
         val spinner: Spinner = findViewById(R.id.spinner)
@@ -30,20 +33,18 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
         spinner.onItemSelectedListener = SchemaSpinnerListener(spinnerSelectedItems)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
+    }
+
     override fun updateSchemaItems(list: List<SchemaItem>) {
         adapter.addAll(list)
         adapter.notifyDataSetChanged()
     }
 
-    override fun setupDefaultFragment(prefName: String) {
+    override fun replacePrefSchema(prefName: String) {
         val fragment = PrefListFragment.newInstance(prefName)
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit()
-    }
-
-    override fun onSchemaItemTapped(item: SchemaItem) {
-        val fragment = PrefListFragment.newInstance(item.name)
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit()
