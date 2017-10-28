@@ -15,17 +15,30 @@ class SchemaSpinnerAdapter @JvmOverloads constructor(context: Context, objects: 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val item = getItem(position)
-        val view = inflater.inflate(R.layout.cell_spinner, parent, false)
-        (view.findViewById<TextView>(R.id.text)).text = item!!.normalizedName()
-        return view
+        return setupView(position, convertView, parent)
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return setupView(position, convertView, parent)
+    }
+
+    private fun setupView(position: Int, convertView: View?, parent: ViewGroup): View {
         val item = getItem(position)
-        val view = inflater.inflate(R.layout.cell_spinner, parent, false)
-        (view.findViewById<TextView>(R.id.text)).text = item!!.normalizedName()
-        return view
+        convertView?.let {
+            val holder = it.tag as ViewHolder
+            holder.textView.text = item!!.normalizedName()
+            return it
+        }.run {
+            val view = inflater.inflate(R.layout.cell_spinner, parent, false)
+            val holder = ViewHolder(view)
+            holder.textView.text = item!!.normalizedName()
+            view.tag = holder
+            return view
+        }
+    }
+
+    class ViewHolder(view: View) {
+        val textView by lazy { view.findViewById<TextView>(R.id.text)!! }
     }
 
 }
