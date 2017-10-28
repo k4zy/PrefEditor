@@ -83,13 +83,15 @@ class EditDialogFragment : DialogFragment() {
             }
         }
 
-    private val title: String
-        get() = "${arguments.getString(ARGS_KEY)} を更新する"
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(context, R.style.CustomAlertDialogStyle).apply {
             setView(customView())
-            setTitle(title)
+            setTitle("$key を更新する")
             setPositiveButton("上書き", { _, _ ->
                 if (parentFragment is Callback) {
                     context.getSharedPreferences(prefName, Context.MODE_PRIVATE).apply {
@@ -134,11 +136,6 @@ class EditDialogFragment : DialogFragment() {
             it.setSelection(selection)
         }
         return customView
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 
     companion object {
