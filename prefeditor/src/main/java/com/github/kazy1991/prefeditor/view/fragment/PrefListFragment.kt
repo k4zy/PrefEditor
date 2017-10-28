@@ -1,6 +1,5 @@
 package com.github.kazy1991.prefeditor.view.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -38,15 +37,11 @@ class PrefListFragment : Fragment(), PrefListContract.View {
         super.onActivityCreated(savedInstanceState)
         recyclerView.adapter = adapter
         presenter = PrefListPresenter(this, context, prefName)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
         presenter.onAttach()
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         presenter.onDetach()
     }
 
