@@ -2,16 +2,16 @@ package com.github.kazy1991.prefeditor.contract
 
 import android.support.v4.app.FragmentManager
 import com.github.kazy1991.prefeditor.view.dialog.EditDialogFragment
+import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.subjects.PublishSubject
 
 interface PrefListContract {
 
-    interface View : EditDialogFragment.Callback {
+    interface View : EditDialogFragment.Companion.Callback {
 
-        val valueClickSubject: PublishSubject<Triple<Int, String, String>>
+        val valueClickSubject: Flowable<Triple<Int, String, String>>
 
-        fun fragmentManager(): FragmentManager
+        val fragmentManagerProxy: FragmentManager
 
         fun updateKeyValueList(list: List<Pair<String, String>>)
 
@@ -27,7 +27,7 @@ interface PrefListContract {
 
     interface Routing {
 
-        fun showEditDialogFragment(item: Triple<Int, String, String>, fragmentManager: FragmentManager)
+        fun showEditDialogFragment(prefName: String, key: String, value: String, position: Int, fragmentManager: FragmentManager)
 
     }
 

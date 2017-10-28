@@ -7,7 +7,7 @@ import com.github.kazy1991.prefeditor.routing.PrefListRouting
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class PrefListPresenter(val view: PrefListContract.View, val context: Context, prefName: String) {
+class PrefListPresenter(val view: PrefListContract.View, val context: Context, val prefName: String) {
 
     private val interactor = PrefListInteractor(context, prefName)
     private val routing = PrefListRouting()
@@ -22,6 +22,6 @@ class PrefListPresenter(val view: PrefListContract.View, val context: Context, p
                 }
 
         view.valueClickSubject
-                .subscribe({ it -> routing.showEditDialogFragment(it, view.fragmentManager()) })
+                .subscribe({ it -> routing.showEditDialogFragment(prefName, it.second, it.third, it.first, view.fragmentManagerProxy) })
     }
 }

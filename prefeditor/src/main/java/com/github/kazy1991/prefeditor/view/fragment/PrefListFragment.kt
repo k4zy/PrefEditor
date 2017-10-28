@@ -1,11 +1,8 @@
 package com.github.kazy1991.prefeditor.view.fragment
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,22 +10,22 @@ import com.github.kazy1991.prefeditor.R
 import com.github.kazy1991.prefeditor.contract.PrefListContract
 import com.github.kazy1991.prefeditor.presenter.PrefListPresenter
 import com.github.kazy1991.prefeditor.view.recyclerview.adapter.PrefListAdapter
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import kotlinx.android.synthetic.main.fragment_pref_list.*
 
 class PrefListFragment : Fragment(), PrefListContract.View {
 
-    override val valueClickSubject: PublishSubject<Triple<Int, String, String>>
-        get() = adapter.valueClickSubject
+    private val prefName: String
+        get() = arguments.getString(ARGS_PREF_NAME)
+
+    override val fragmentManagerProxy: FragmentManager
+        get() = childFragmentManager
+
+    override val valueClickSubject: Flowable<Triple<Int, String, String>>
+        get() = adapter.valueClickSubject.toFlowable(BackpressureStrategy.LATEST)
 
     private val adapter = PrefListAdapter()
-
-    private val compositeDisposable = CompositeDisposable()
-
-    private val recyclerView by lazy { view?.findViewById<RecyclerView>(R.id.recycler_view) }
-
-    // todo: remove
-    lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_pref_list, container, false)
@@ -36,19 +33,8 @@ class PrefListFragment : Fragment(), PrefListContract.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val prefName = arguments.getString(ARGS_PREF_NAME)
-
-        recyclerView?.adapter = adapter
-
+        recyclerView.adapter = adapter
         PrefListPresenter(this, context, prefName)
-
-        sharedPref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.clear()
     }
 
     override fun clearList() {
@@ -61,13 +47,7 @@ class PrefListFragment : Fragment(), PrefListContract.View {
     }
 
     override fun onItemUpdate(position: Int, key: String, newValue: String) {
-        sharedPref.edit().putString(key, newValue).apply()
         adapter.updateItem(position, key, newValue)
-    }
-
-    // todo: Fix bad practice. thinking a good idea...
-    override fun fragmentManager(): FragmentManager {
-        return childFragmentManager
     }
 
     companion object {
