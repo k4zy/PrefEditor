@@ -30,8 +30,4 @@ interface PrefListContract {
         fun showEditDialogFragment(prefName: String, key: String, value: String, position: Int, fragmentManager: FragmentManager)
 
     }
-
-    interface ViewHelper {
-
-    }
 }
