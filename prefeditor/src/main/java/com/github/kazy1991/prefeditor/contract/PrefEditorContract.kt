@@ -2,6 +2,7 @@ package com.github.kazy1991.prefeditor.contract
 
 import android.support.v4.app.FragmentManager
 import com.github.kazy1991.prefeditor.entity.SchemaItem
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 
@@ -11,7 +12,7 @@ interface PrefEditorContract {
 
         val fragmentManagerProxy: FragmentManager
 
-        val spinnerSelectedItems: PublishSubject<SchemaItem>
+        val spinnerSelectedItems: Flowable<SchemaItem>
 
         fun updateSchemaItems(list: List<SchemaItem>)
     }

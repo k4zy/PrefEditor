@@ -10,14 +10,18 @@ import com.github.kazy1991.prefeditor.entity.SchemaItem
 import com.github.kazy1991.prefeditor.presenter.PrefEditorPresenter
 import com.github.kazy1991.prefeditor.tools.SchemaSpinnerListener
 import com.github.kazy1991.prefeditor.view.spinner.adapter.SchemaSpinnerAdapter
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 
 class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
 
     override val fragmentManagerProxy: FragmentManager
         get() = supportFragmentManager
 
-    override val spinnerSelectedItems = PublishSubject.create<SchemaItem>()!!
+    override val spinnerSelectedItems: Flowable<SchemaItem>
+        get() = schemaSpinnerListener.spinnerSelectedItems.toFlowable(BackpressureStrategy.LATEST)
+
+    private val schemaSpinnerListener = SchemaSpinnerListener()
 
     lateinit var adapter: SchemaSpinnerAdapter
 
@@ -32,7 +36,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
         adapter = SchemaSpinnerAdapter(this)
         val spinner: Spinner = findViewById(R.id.spinner)
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = SchemaSpinnerListener(spinnerSelectedItems)
+        spinner.onItemSelectedListener = schemaSpinnerListener
     }
 
     override fun onDestroy() {
