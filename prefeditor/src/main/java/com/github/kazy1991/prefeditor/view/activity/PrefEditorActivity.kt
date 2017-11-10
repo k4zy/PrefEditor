@@ -30,8 +30,7 @@ class PrefEditorActivity : AppCompatActivity(), PrefEditorContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pref_editor)
-        presenter = PrefEditorPresenter(this, this)
-        presenter.onAttach()
+        presenter = PrefEditorPresenter(this, this).apply { onAttach() }
 
         adapter = SchemaSpinnerAdapter(this)
         val spinner: Spinner = findViewById(R.id.spinner)

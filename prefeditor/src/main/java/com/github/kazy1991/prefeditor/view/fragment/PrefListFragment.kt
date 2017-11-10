@@ -36,8 +36,7 @@ class PrefListFragment : Fragment(), PrefListContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.adapter = adapter
-        presenter = PrefListPresenter(this, context, prefName)
-        presenter.onAttach()
+        presenter = PrefListPresenter(this, context, prefName).apply { onAttach() }
     }
 
     override fun onDestroyView() {
