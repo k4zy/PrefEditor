@@ -18,7 +18,7 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
     @VisibleForTesting
     val defaultPrefAnnotatedName = "DefaultPreference"
 
-    val schemaItems: Single<List<SchemaItem>>
+    override val schemaItems: Single<List<SchemaItem>>
         get() = Observable.just(prefDir)
                 .filter { it.exists() && it.isDirectory }
                 .flatMap { Observable.fromIterable(it.list().toList()) }
@@ -29,7 +29,7 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
                 .map { convertToNavigationItem(it) }
                 .toList()
 
-    fun convertToNavigationItem(fileName: String): SchemaItem {
+    override fun convertToNavigationItem(fileName: String): SchemaItem {
         return when (fileName) {
             defaultPrefName -> {
                 SchemaItem(fileName, defaultPrefAnnotatedName)
@@ -40,7 +40,7 @@ class PrefEditorInteractor(context: Context) : PrefEditorContract.Interactor {
         }
     }
 
-    fun sortPrefList(list: List<String>): List<String> {
+    override fun sortPrefList(list: List<String>): List<String> {
         return if (list.contains(defaultPrefName)) {
             list.filter { it != defaultPrefName }.toMutableList().apply { add(0, defaultPrefName) }
         } else {

@@ -7,13 +7,16 @@ import com.github.kazy1991.prefeditor.entity.SchemaItem
 import io.reactivex.subjects.PublishSubject
 
 
-class SchemaSpinnerListener(private val subject: PublishSubject<SchemaItem>) : AdapterView.OnItemSelectedListener {
+class SchemaSpinnerListener : AdapterView.OnItemSelectedListener {
+
+    val spinnerSelectedItems = PublishSubject.create<SchemaItem>()!!
+
     override fun onNothingSelected(parent: AdapterView<*>) {
 
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         val navigationItem = parent.getItemAtPosition(position) as SchemaItem
-        subject.onNext(navigationItem)
+        spinnerSelectedItems.onNext(navigationItem)
     }
 }
