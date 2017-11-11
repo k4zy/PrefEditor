@@ -2,7 +2,7 @@ package com.github.kazy1991.prefeditor.routing
 
 import android.support.v4.app.FragmentManager
 import com.github.kazy1991.prefeditor.contract.PrefListContract
-import com.github.kazy1991.prefeditor.view.dialog.EditDialogFragment
+import com.github.kazy1991.prefeditor.editdialog.view.EditDialogFragment
 
 class PrefListRouting : PrefListContract.Routing {
 

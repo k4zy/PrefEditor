@@ -3,15 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="25dp"
-    android:paddingTop="25dp">
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/value_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/boolean_spinner"
-        android:entries="@array/BooleanSpinnerItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:entries="@array/BooleanSpinnerItems" />
 
 </LinearLayout>
